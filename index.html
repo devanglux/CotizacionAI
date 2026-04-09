@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovery Form | ADOLFO ARROYO IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <div class="glass-container">
+        <div class="progress-container" style="margin-bottom: 20px;">
+            <div id="progress-bar" style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden;">
+                <div id="progress-fill" style="width: 25%; height: 100%; background: linear-gradient(90deg, #00F2FF, #BC13FE); transition: width 0.4s ease;"></div>
+            </div>
+            <p id="progress-text" style="color: #8A9BB5; font-size: 11px; text-align: right; margin-top: 5px; text-transform: uppercase;">Paso 1 de 3</p>
+        </div>
+
+        <header style="text-align: center; margin-bottom: 30px;">
+            <img src="https://tu-dominio.com/logo-datavia.png" id="form-logo" style="max-width: 130px; margin-bottom: 10px;">
+            <h2 style="color: #00F2FF; margin: 0; font-size: 1.4rem;">Discovery Agente IA</h2>
+        </header>
+
+        <form id="discovery-form">
+            <div class="form-step" id="step-1">
+                <h3 style="color: #BC13FE; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 15px;">1. Información Base</h3>
+                <input type="text" id="biz_name" placeholder="Nombre del Negocio" required>
+                <input type="text" id="contact_name" placeholder="Tu Nombre" required>
+                <input type="tel" id="whatsapp" placeholder="WhatsApp / Teléfono" required>
+                <input type="email" id="email" placeholder="Correo Electrónico" required>
+                
+                <select id="rubro_select" required>
+                    <option value="" disabled selected>Selecciona tu Rubro</option>
+                    <option value="Comida">Comida / Restaurante</option>
+                    <option value="Salud">Salud / Médico / Spa</option>
+                    <option value="Ventas">Tienda / Ventas</option>
+                    <option value="Leads">Inmobiliaria / Servicios</option>
+                    <option value="Otro">Otro</option>
+                </select>
+                <input type="text" id="referral" placeholder="¿Quién te refirió?">
+                <button type="button" class="neon-button" onclick="nextStep(2)">Continuar</button>
+            </div>
+
+            <div id="dynamic-module-container"></div>
+
+            <div class="form-step" id="step-3" style="display:none;">
+                <h3 style="color: #BC13FE; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 15px;">3. Configuración IA</h3>
+                <input type="text" id="ai_name" placeholder="Nombre del Agente (Ej: Sofía)">
+                <select id="ai_tone">
+                    <option value="" disabled selected>Tono del Agente</option>
+                    <option value="Formal">Formal y profesional</option>
+                    <option value="Amigable">Amigable y casual</option>
+                    <option value="Mixto">Mixto</option>
+                </select>
+                <textarea id="ai_functions" placeholder="¿Qué debe poder hacer el agente?" rows="3"></textarea>
+                <textarea id="prohibited_topics" placeholder="Temas prohibidos" rows="2"></textarea>
+                <button type="button" class="neon-button" id="btn-submit" onclick="submitForm()">Finalizar y Enviar</button>
+            </div>
+
+            <div id="success-screen" style="display:none; text-align: center; padding: 20px;">
+                <div style="font-size: 50px; margin-bottom: 20px;">🚀</div>
+                <h2 style="color: #00F2FF;">¡Datos Recibidos!</h2>
+                <p style="color: #EEF2F8; line-height: 1.6;">Para personalizar tu solución al 100%, agendemos una breve sesión de 15 min.</p>
+                <a href="https://calendly.com/adolfoarroyoai/30min" target="_blank" class="neon-button" style="display: block; text-decoration: none; margin-top: 30px;">Agendar Cita en Calendly</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="logic.js"></script>
+</body>
+</html>
