@@ -14,6 +14,6 @@ const FORM_CONFIG = {
     emailjs_service: "service_oedo4y5",
     emailjs_template: "template_bf57r25",
     emailjs_public_key: "TMI0rEIG1FGkVjqoJ",
-    google_sheets_url: "https://script.google.com/macros/s/AKfycbws7HeszopyYbRvvDBb1Ojq2nmCKfVB13Ph1BnvT3vwIuPLOFn4LYg7zN8w_ZYh0OVxWw/exec"
+    google_sheets_url: "https://script.google.com/macros/s/AKfycbyV-PO_WuvTKG0UlduPRsgFmd9d_MOdDf9I53lvgPOad97HpKJ2sdJut5pogCQ36x6KWg/exec"
   }
 };
