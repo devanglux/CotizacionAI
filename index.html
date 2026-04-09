@@ -2,94 +2,46 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discovery Form | Adolfo Arroyo IA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <style>
-        /* Corrección de visibilidad para selectores */
-        select option {
-            background-color: #0A0E17;
-            color: #ffffff;
-        }
-        .hidden-field { display: none; animation: fadeIn 0.4s ease; }
-        #success-screen { display: none; text-align: center; animation: slideUp 0.6s ease; }
-    </style>
 </head>
 <body>
     <div class="glass-container">
-        <div class="progress-container" style="margin-bottom: 25px;">
-            <div id="progress-bar" style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-                <div id="progress-fill" style="width: 33%; height: 100%; background: linear-gradient(90deg, #00F2FF, #BC13FE); transition: width 0.5s; border-radius: 10px;"></div>
-            </div>
-            <p id="progress-text" style="color: #8A9BB5; font-size: 11px; text-align: right; margin-top: 6px; text-transform: uppercase;">Paso 1 de 3</p>
+        <div class="progress-container">
+            <div id="progress-bar"><div id="progress-fill"></div></div>
+            <p id="progress-text">Paso 1 de 3</p>
         </div>
 
         <form id="discovery-form">
             <div class="form-step" id="step-1">
-                <h3 style="color: #BC13FE; font-size: 0.9rem; text-transform: uppercase;">1. Información de Negocio</h3>
-                <input type="text" id="biz_name" placeholder="Nombre del Negocio" required>
-                <input type="text" id="contact_name" placeholder="Tu Nombre" required>
-                <input type="tel" id="whatsapp" placeholder="WhatsApp (Ej: +52...)" required>
-                <input type="email" id="email" placeholder="Correo Electrónico" required>
-                
-                <select id="rubro_select" onchange="checkOtro(this.value)" required>
-                    <option value="" disabled selected>¿A qué se dedica tu negocio?</option>
-                    <option value="Comida">Comida / Restaurante</option>
-                    <option value="Salud">Salud / Médico / Spa</option>
-                    <option value="Ventas">Tienda / Ventas de productos</option>
-                    <option value="Servicios">Servicios Profesionales / Educación</option>
-                    <option value="Inmobiliaria">Bienes Raíces / Hotel</option>
-                    <option value="Otro">Otro (Especificar)</option>
-                </select>
-                
-                <div id="otro_especificar_container" class="hidden-field">
-                    <input type="text" id="rubro_otro" placeholder="Describe tu rubro específico">
+                <h3 class="step-title">1. ¿A qué se dedica tu negocio?</h3>
+                <div class="cards-grid" id="rubro-cards">
+                    </div>
+                <div id="otro-input-container" class="hidden-field">
+                    <input type="text" id="rubro_otro" placeholder="Especifica tu rubro aquí...">
                 </div>
-
-                <input type="text" id="referral" placeholder="¿Quién te refirió? (Opcional)">
-                <button type="button" class="neon-button" onclick="nextStep(2)">Continuar</button>
+                
+                <div class="input-group">
+                    <input type="text" id="biz_name" placeholder="Nombre del Negocio" required>
+                    <input type="text" id="contact_name" placeholder="Tu Nombre" required>
+                    <input type="tel" id="whatsapp" placeholder="WhatsApp" required>
+                </div>
+                <button type="button" class="neon-button" onclick="validateStep1()">Continuar</button>
             </div>
 
             <div id="dynamic-module-container"></div>
 
-            <div class="form-step" id="step-3" style="display:none;">
-                <h3 style="color: #BC13FE; font-size: 0.9rem; text-transform: uppercase;">3. Personalidad del Agente</h3>
-                <input type="text" id="ai_name" placeholder="Nombre deseado para la IA">
-                
-                <select id="ai_tone">
-                    <option value="" disabled selected>Tono de comunicación</option>
-                    <option value="Formal">Formal y profesional</option>
-                    <option value="Amigable">Amigable y casual</option>
-                    <option value="Mixto">Mixto (Profesional pero cercano)</option>
-                </select>
-
-                <textarea id="ai_functions" placeholder="¿Qué funciones principales esperas? (Ej: Agendar, vender...)" rows="3"></textarea>
-                <textarea id="prohibited_topics" placeholder="Temas que la IA NO debe tocar" rows="2"></textarea>
-                
-                <select id="msg_volume">
-                    <option value="" disabled selected>Volumen de mensajes diarios</option>
-                    <option value="<20">Menos de 20</option>
-                    <option value="20-100">20 a 100</option>
-                    <option value=">100">Más de 100</option>
-                </select>
-
-                <button type="button" class="neon-button" id="btn-submit" onclick="submitForm()">Enviar y Finalizar</button>
-            </div>
-
-            <div id="success-screen">
-                <div style="font-size: 50px; margin-bottom: 20px;">🚀</div>
-                <h2 style="color: #00F2FF;">¡Solicitud Enviada!</h2>
-                <p style="color: #EEF2F8; margin-bottom: 30px;">Tus datos están siendo procesados. Para acelerar tu implementación, agendemos una breve sesión estratégica.</p>
-                <a href="https://calendly.com/adolfoarroyoai/30min" target="_blank" class="neon-button" style="display: inline-block; text-decoration: none;">Agendar Cita en Calendly</a>
+            <div id="success-screen" class="hidden-field">
+                <h2>🚀 ¡Listo para el siguiente nivel!</h2>
+                <p>Hemos recibido tus datos. Ahora, agendemos para definir los detalles técnicos.</p>
+                <a href="https://calendly.com/adolfoarroyoai/30min" class="neon-button">Agendar en Calendly</a>
             </div>
         </form>
     </div>
-
     <script src="config.js"></script>
     <script src="logic.js"></script>
 </body>
 </html>
-
-

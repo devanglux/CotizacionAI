@@ -105,5 +105,70 @@ async function submitForm() {
     }
 }
 
+// Configuración de Rubros con Iconos
+const rubros = [
+    { id: 'Comida', label: 'Restaurante', icon: '🍴' },
+    { id: 'Salud', label: 'Salud/Médico', icon: '⚕️' },
+    { id: 'Ventas', label: 'Tienda/Ventas', icon: '🛍️' },
+    { id: 'Inmobiliaria', label: 'Real Estate', icon: '🏠' },
+    { id: 'Otro', label: 'Otro', icon: '✨' }
+];
 
+// Inyectar Cards al cargar
+window.onload = () => {
+    const grid = document.getElementById('rubro-cards');
+    rubros.forEach(r => {
+        grid.innerHTML += `
+            <div class="card" onclick="selectCard('rubro', '${r.id}', this)">
+                <span class="card-icon">${r.icon}</span>
+                <span class="card-label">${r.label}</span>
+            </div>
+        `;
+    });
+};
+
+let selectedRubro = '';
+
+function selectCard(type, id, element) {
+    // Deseleccionar otros
+    const parent = element.parentElement;
+    parent.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+    
+    // Seleccionar actual
+    element.classList.add('selected');
+    
+    if (type === 'rubro') {
+        selectedRubro = id;
+        document.getElementById('otro-input-container').style.display = (id === 'Otro') ? 'block' : 'none';
+    }
+}
+
+function renderDynamicModule(rubro) {
+    const container = document.getElementById('dynamic-module-container');
+    
+    // Ejemplo de selección múltiple con CARDS para "Qué debe hacer el agente"
+    container.innerHTML = `
+        <div class="form-step" id="step-2">
+            <h3 class="step-title">2. ¿Qué habilidades necesita tu Agente?</h3>
+            <p style="font-size: 12px; color: #8A9BB5; margin-bottom: 15px;">Selecciona todas las que apliquen (Ejemplo: Agendar citas, responder FAQ)</p>
+            
+            <div class="cards-grid">
+                <div class="card" onclick="this.classList.toggle('selected')">
+                    <span class="card-icon">📅</span><span class="card-label">Agendar Citas</span>
+                </div>
+                <div class="card" onclick="this.classList.toggle('selected')">
+                    <span class="card-icon">💬</span><span class="card-label">Responder FAQ</span>
+                </div>
+                <div class="card" onclick="this.classList.toggle('selected')">
+                    <span class="card-icon">🛒</span><span class="card-label">Tomar Pedidos</span>
+                </div>
+                <div class="card" onclick="this.classList.toggle('selected')">
+                    <span class="card-icon">👤</span><span class="card-label">Pasar a Humano</span>
+                </div>
+            </div>
+
+            <button type="button" class="neon-button" onclick="nextStep(3)">Último Paso</button>
+        </div>
+    `;
+}
 
