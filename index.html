@@ -3,38 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discovery Agente IA</title>
-    <link rel="stylesheet" href="style.css"> </head>
+    <title>Discovery Agente IA | Datavia</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
 <body>
     <div class="glass-container">
-        <form id="discovery-form">
+        <div class="progress-wrapper">
+            <div class="progress-bar"><div id="progress-fill" style="width: 20%;"></div></div>
+            <p id="progress-text">Paso 1 de 5</p>
+        </div>
+
+        <form id="discovery-form" novalidate>
             <div class="form-step active" id="step-1">
+                <h2 class="step-title">1. Identificación y Origen</h2>
                 <div class="field-group">
-                    <label>Nombre del Negocio</label>
-                    <input type="text" id="biz_name" required>
+                    <label for="biz_name">Nombre del Negocio</label>
+                    <input type="text" id="biz_name" placeholder="Ej: Restaurante El Faro" required>
                     <span class="error-msg" id="err-biz_name"></span>
+                </div>
+
+                <div class="field-group">
+                    <label for="contact_name">Nombre del Contacto</label>
+                    <input type="text" id="contact_name" placeholder="Tu nombre" required>
+                    <span class="error-msg"></span>
+                </div>
+
+                <div class="field-group">
+                    <label for="whatsapp">WhatsApp</label>
+                    <input type="tel" id="whatsapp" placeholder="+52..." required>
+                    <span class="error-msg"></span>
                 </div>
 
                 <div class="field-group">
                     <label>¿Cómo supiste de nosotros?</label>
                     <div class="cards-grid" id="origin-grid">
-                        <div class="card" onclick="selectCard('origin', 'Facebook', this)">🌐 Facebook</div>
-                        <div class="card" onclick="selectCard('origin', 'Instagram', this)">📸 Instagram</div>
-                    </div>
-                    <span class="error-msg" id="err-origin"></span>
+                        </div>
+                    <span class="error-msg" id="origin-error"></span>
                 </div>
-
-                <button type="button" class="neon-button" onclick="nextStep(2)">Continuar</button>
+                <button type="button" class="neon-button" onclick="validateAndNext(2)">Continuar</button>
             </div>
 
-            <div class="form-step" id="step-2"></div>
+            <div class="form-step" id="step-2" style="display:none;">
+                <h2 class="step-title">2. Tu Rubro</h2>
+                <div class="field-group">
+                    <label>¿A qué se dedica tu negocio?</label>
+                    <div class="cards-grid" id="rubro-grid"></div>
+                    <span class="error-msg" id="rubro-error"></span>
+                </div>
+                <div id="otro-container" class="field-group" style="display:none;">
+                    <label for="rubro_otro">Especifica tu rubro</label>
+                    <input type="text" id="rubro_otro" placeholder="...">
+                </div>
+                <button type="button" class="neon-button" onclick="validateAndNext(3)">Continuar</button>
+            </div>
+
+            <div class="form-step" id="step-3" style="display:none;">
+                <h2 class="step-title">3. Logística</h2>
+                <div class="field-group">
+                    <label for="location">Ubicación (Ciudad/País)</label>
+                    <input type="text" id="location" placeholder="Ej: CDMX, México" required>
+                    <span class="error-msg"></span>
+                </div>
+                <div class="field-group">
+                    <label>Comportamiento fuera de horario</label>
+                    <div class="cards-grid" id="off-grid"></div>
+                    <span class="error-msg"></span>
+                </div>
+                <button type="button" class="neon-button" onclick="validateAndNext(4)">Continuar</button>
+            </div>
+
+            <div class="form-step" id="step-4" style="display:none;">
+                <h2 class="step-title">4. Capacidades del Agente</h2>
+                <div class="field-group">
+                    <label>¿Qué habilidades debe tener?</label>
+                    <div class="cards-grid" id="hab-grid"></div>
+                    <span class="error-msg"></span>
+                </div>
+                <div class="field-group">
+                    <label for="ai_tone">Tono de comunicación</label>
+                    <select id="ai_tone" required>
+                        <option value="Formal">Formal</option>
+                        <option value="Amigable">Amigable</option>
+                        <option value="Relajado">Relajado</option>
+                    </select>
+                </div>
+                <button type="button" class="neon-button" onclick="validateAndNext(5)">Continuar</button>
+            </div>
+
+            <div class="form-step" id="step-5" style="display:none;">
+                <h2 class="step-title">5. Detalles Finales</h2>
+                <div class="field-group">
+                    <label for="msg_volume">Volumen de mensajes diarios</label>
+                    <select id="msg_volume" required>
+                        <option value="<20">Menos de 20</option>
+                        <option value="20-100">20 a 100</option>
+                        <option value=">100">Más de 100</option>
+                    </select>
+                </div>
+                <button type="button" class="neon-button" onclick="submitFinalForm()">Finalizar y Enviar</button>
+            </div>
 
             <div id="success-screen" class="hidden-field" style="display:none; text-align:center;">
-                <h2>🚀 ¡Enviado!</h2>
-                <a href="https://calendly.com/adolfoarroyoai/30min" class="neon-button">Agendar Cita</a>
+                <div class="success-icon" style="font-size: 3rem;">🚀</div>
+                <h2>¡Información Recibida!</h2>
+                <p>Tu estrategia IA está lista. Agenda tu sesión técnica ahora:</p>
+                <a href="https://calendly.com/adolfoarroyoai/30min" target="_blank" class="neon-button" style="display:block; text-decoration:none;">Agendar en Calendly</a>
             </div>
         </form>
     </div>
+
     <script src="config.js"></script>
     <script src="logic.js"></script>
 </body>
