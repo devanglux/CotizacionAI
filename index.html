@@ -3,75 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discovery Agente IA | Datavia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-</head>
+    <title>Discovery Agente IA</title>
+    <link rel="stylesheet" href="style.css"> </head>
 <body>
     <div class="glass-container">
-        <div class="progress-wrapper">
-            <div class="progress-bar"><div id="progress-fill"></div></div>
-            <p id="progress-text">Paso 1 de 5</p>
-        </div>
-
-        <form id="discovery-form" novalidate>
+        <form id="discovery-form">
             <div class="form-step active" id="step-1">
-                <h2 class="step-title">1. Identificación y Origen</h2>
-                
                 <div class="field-group">
-                    <label for="biz_name">Nombre de tu Empresa / Proyecto</label>
-                    <input type="text" id="biz_name" placeholder="Ej: Restaurante El Faro" required>
-                    <span class="error-msg"></span>
-                </div>
-
-                <div class="field-group">
-                    <label for="contact_name">Persona responsable</label>
-                    <input type="text" id="contact_name" placeholder="Tu nombre y apellido" required>
-                    <span class="error-msg"></span>
-                </div>
-
-                <div class="field-group">
-                    <label for="whatsapp">WhatsApp de contacto</label>
-                    <input type="tel" id="whatsapp" placeholder="Ej: +52 55..." required>
-                    <span class="error-msg"></span>
+                    <label>Nombre del Negocio</label>
+                    <input type="text" id="biz_name" required>
+                    <span class="error-msg" id="err-biz_name"></span>
                 </div>
 
                 <div class="field-group">
                     <label>¿Cómo supiste de nosotros?</label>
-                    <div class="cards-grid" id="origin-grid"></div>
-                    <span class="error-msg" id="origin-error"></span>
+                    <div class="cards-grid" id="origin-grid">
+                        <div class="card" onclick="selectCard('origin', 'Facebook', this)">🌐 Facebook</div>
+                        <div class="card" onclick="selectCard('origin', 'Instagram', this)">📸 Instagram</div>
+                    </div>
+                    <span class="error-msg" id="err-origin"></span>
                 </div>
 
-                <button type="button" class="neon-button" onclick="validateStep(1)">Continuar</button>
+                <button type="button" class="neon-button" onclick="nextStep(2)">Continuar</button>
             </div>
 
-            <div id="dynamic-steps"></div>
+            <div class="form-step" id="step-2"></div>
 
-            <div class="form-step" id="step-5" style="display:none;">
-                <h2 class="step-title">5. Finalizar y Agendar</h2>
-                <div class="field-group">
-                    <label>Volumen de mensajes diarios estimados</label>
-                    <select id="msg_volume" required>
-                        <option value="" disabled selected>Selecciona una opción</option>
-                        <option value="<20">Menos de 20</option>
-                        <option value="20-100">20 a 100</option>
-                        <option value=">100">Más de 100</option>
-                    </select>
-                    <span class="error-msg"></span>
-                </div>
-                <button type="button" class="neon-button" id="submit-btn" onclick="submitFinalForm()">Enviar Información</button>
-            </div>
-
-            <div id="success-screen" class="hidden-field">
-                <div class="success-icon">🚀</div>
-                <h2>¡Datos Enviados!</h2>
-                <p>Tu estrategia IA está lista para ser diseñada. Agenda ahora para definir los detalles técnicos.</p>
-                <a href="https://calendly.com/adolfoarroyoai/30min" target="_blank" class="neon-button">Agendar en Calendly</a>
+            <div id="success-screen" class="hidden-field" style="display:none; text-align:center;">
+                <h2>🚀 ¡Enviado!</h2>
+                <a href="https://calendly.com/adolfoarroyoai/30min" class="neon-button">Agendar Cita</a>
             </div>
         </form>
     </div>
-
     <script src="config.js"></script>
     <script src="logic.js"></script>
 </body>
