@@ -10,46 +10,78 @@
 </head>
 <body>
     <div class="glass-container">
-        <div class="progress-container">
-            <div id="progress-bar"><div id="progress-fill"></div></div>
-            <p id="progress-text">Paso 1 de 3</p>
+        <div class="progress-wrapper">
+            <div class="progress-bar"><div id="progress-fill"></div></div>
+            <div id="progress-text">Paso 1 de 5</div>
         </div>
 
-        <form id="discovery-form">
+        <form id="discovery-form" novalidate>
             <div class="form-step" id="step-1">
-                <h3 class="step-title">1. Información de tu Negocio</h3>
-                <div class="input-group">
-                    <input type="text" id="biz_name" placeholder="Nombre del Negocio" required>
-                    <input type="text" id="contact_name" placeholder="Tu Nombre" required>
-                    <input type="tel" id="whatsapp" placeholder="WhatsApp (Ej: +52...)" required>
-                </div>
+                <h2 class="step-title">1. Identificación y Origen</h2>
                 
-                <p class="label-text">¿A qué se dedica tu negocio?</p>
-                <div class="cards-grid" id="rubro-grid">
-                    </div>
-                <div id="otro-container" class="hidden-field">
-                    <input type="text" id="rubro_otro" placeholder="Especifica tu rubro...">
+                <div class="field-group">
+                    <label>Nombre del Negocio / Empresa</label>
+                    <input type="text" id="biz_name" placeholder="Ej: Restaurante El Faro" required>
+                    <span class="error-msg"></span>
                 </div>
-                
-                <button type="button" class="neon-button" onclick="goToStep2()">Continuar</button>
+
+                <div class="field-group">
+                    <label>Nombre del Contacto (Responsable)</label>
+                    <input type="text" id="contact_name" placeholder="Ej: Juan Pérez" required>
+                    <span class="error-msg"></span>
+                </div>
+
+                <div class="field-group">
+                    <label>WhatsApp / Teléfono</label>
+                    <input type="tel" id="whatsapp" placeholder="+52..." required>
+                    <span class="error-msg"></span>
+                </div>
+
+                <div class="field-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="email" placeholder="email@ejemplo.com" required>
+                    <span class="error-msg"></span>
+                </div>
+
+                <div class="field-group">
+                    <label>¿Quién te refirió? (Opcional)</label>
+                    <input type="text" id="referral" placeholder="Vendedor o Cliente">
+                </div>
+
+                <div class="field-group">
+                    <label>¿Cómo supiste de nosotros?</label>
+                    <div class="cards-grid" id="origin-grid">
+                        </div>
+                    <span class="error-msg" id="origin-error"></span>
+                </div>
+
+                <button type="button" class="neon-button" onclick="validateAndNext(2)">Continuar</button>
             </div>
 
-            <div id="dynamic-module-container"></div>
-
-            <div class="form-step" id="step-3" style="display:none;">
-                <h3 class="step-title">3. Personalidad del Agente</h3>
-                <p class="label-text">Tono de comunicación:</p>
-                <div class="cards-grid" id="tone-grid">
-                    </div>
-                
-                <textarea id="prohibited_topics" placeholder="Temas que el agente NO debe tocar..."></textarea>
-                <button type="button" class="neon-button" id="btn-submit" onclick="submitForm()">Finalizar y Enviar</button>
+            <div class="form-step" id="step-2" style="display:none;">
+                <h2 class="step-title">2. Tu Rubro</h2>
+                <div class="field-group">
+                    <label>¿A qué se dedica tu negocio?</label>
+                    <div class="cards-grid" id="rubro-grid"></div>
+                    <span class="error-msg" id="rubro-error"></span>
+                </div>
+                <div id="otro-container" class="field-group hidden-field">
+                    <label>Especifica tu rubro</label>
+                    <input type="text" id="rubro_otro" placeholder="Ej: Consultoría de Arte">
+                </div>
+                <button type="button" class="neon-button" onclick="validateAndNext(3)">Siguiente</button>
             </div>
+
+            <div id="dynamic-step-3"></div>
+
+            <div id="dynamic-step-4"></div>
+
+            <div id="dynamic-step-5"></div>
 
             <div id="success-screen" class="hidden-field">
-                <div class="icon-success">🚀</div>
+                <div class="success-icon">🚀</div>
                 <h2>¡Solicitud Recibida!</h2>
-                <p>Para personalizar tu agente al 100%, agendemos una sesión estratégica:</p>
+                <p>Tu estrategia IA está en camino. Agendemos para definir detalles.</p>
                 <a href="https://calendly.com/adolfoarroyoai/30min" target="_blank" class="neon-button">Agendar en Calendly</a>
             </div>
         </form>
