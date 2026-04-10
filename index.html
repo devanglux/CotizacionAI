@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discovery Form | Adolfo Arroyo IA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
     <div class="glass-container">
@@ -17,27 +17,40 @@
 
         <form id="discovery-form">
             <div class="form-step" id="step-1">
-                <h3 class="step-title">1. ¿A qué se dedica tu negocio?</h3>
-                <div class="cards-grid" id="rubro-cards">
-                    </div>
-                <div id="otro-input-container" class="hidden-field">
-                    <input type="text" id="rubro_otro" placeholder="Especifica tu rubro aquí...">
-                </div>
-                
+                <h3 class="step-title">1. Información de tu Negocio</h3>
                 <div class="input-group">
                     <input type="text" id="biz_name" placeholder="Nombre del Negocio" required>
                     <input type="text" id="contact_name" placeholder="Tu Nombre" required>
-                    <input type="tel" id="whatsapp" placeholder="WhatsApp" required>
+                    <input type="tel" id="whatsapp" placeholder="WhatsApp (Ej: +52...)" required>
                 </div>
-                <button type="button" class="neon-button" onclick="validateStep1()">Continuar</button>
+                
+                <p class="label-text">¿A qué se dedica tu negocio?</p>
+                <div class="cards-grid" id="rubro-grid">
+                    </div>
+                <div id="otro-container" class="hidden-field">
+                    <input type="text" id="rubro_otro" placeholder="Especifica tu rubro...">
+                </div>
+                
+                <button type="button" class="neon-button" onclick="goToStep2()">Continuar</button>
             </div>
 
             <div id="dynamic-module-container"></div>
 
+            <div class="form-step" id="step-3" style="display:none;">
+                <h3 class="step-title">3. Personalidad del Agente</h3>
+                <p class="label-text">Tono de comunicación:</p>
+                <div class="cards-grid" id="tone-grid">
+                    </div>
+                
+                <textarea id="prohibited_topics" placeholder="Temas que el agente NO debe tocar..."></textarea>
+                <button type="button" class="neon-button" id="btn-submit" onclick="submitForm()">Finalizar y Enviar</button>
+            </div>
+
             <div id="success-screen" class="hidden-field">
-                <h2>🚀 ¡Listo para el siguiente nivel!</h2>
-                <p>Hemos recibido tus datos. Ahora, agendemos para definir los detalles técnicos.</p>
-                <a href="https://calendly.com/adolfoarroyoai/30min" class="neon-button">Agendar en Calendly</a>
+                <div class="icon-success">🚀</div>
+                <h2>¡Solicitud Recibida!</h2>
+                <p>Para personalizar tu agente al 100%, agendemos una sesión estratégica:</p>
+                <a href="https://calendly.com/adolfoarroyoai/30min" target="_blank" class="neon-button">Agendar en Calendly</a>
             </div>
         </form>
     </div>
