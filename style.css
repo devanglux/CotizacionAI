@@ -1,60 +1,54 @@
 .field-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px; /* Más espacio entre campos */
     text-align: left;
 }
 
 label {
     display: block;
-    color: var(--neon-cyan);
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 8px;
+    color: #00F2FF; /* Cian Neón */
+    font-size: 0.85rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    margin-bottom: 10px; /* Separación del label y el campo */
+    letter-spacing: 1px;
 }
 
-input, textarea, select {
-    width: 100%;
+input, select, textarea {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
-    padding: 12px;
-    border-radius: 8px;
-    box-sizing: border-box;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    width: 100%;
+    transition: 0.3s;
 }
 
 .input-error {
-    border-color: #ff4444 !important;
-    box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);
+    border-color: #ff4444;
 }
 
 .error-msg {
     color: #ff4444;
-    font-size: 11px;
+    font-size: 0.75rem;
     margin-top: 5px;
     display: block;
-    height: 14px; /* Evita que el layout salte */
+    min-height: 15px;
 }
 
-/* Estilo para las Cards */
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 12px;
 }
 
 .card {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.1);
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
+    padding: 20px;
+    border-radius: 15px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform 0.2s, border-color 0.2s;
 }
 
-.card.selected {
-    border-color: var(--neon-cyan);
-    background: rgba(0, 242, 255, 0.1);
-    box-shadow: 0 0 15px var(--neon-cyan);
-}
+.card:hover { transform: translateY(-3px); border-color: #00F2FF; }
+.card.selected { border-color: #00F2FF; background: rgba(0, 242, 255, 0.1); box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discovery Form | Adolfo Arroyo IA</title>
+    <title>Discovery Agente IA | Datavia</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -12,80 +12,66 @@
     <div class="glass-container">
         <div class="progress-wrapper">
             <div class="progress-bar"><div id="progress-fill"></div></div>
-            <div id="progress-text">Paso 1 de 5</div>
+            <p id="progress-text">Paso 1 de 5</p>
         </div>
 
         <form id="discovery-form" novalidate>
-            <div class="form-step" id="step-1">
+            <div class="form-step active" id="step-1">
                 <h2 class="step-title">1. Identificación y Origen</h2>
                 
                 <div class="field-group">
-                    <label>Nombre del Negocio / Empresa</label>
+                    <label for="biz_name">Nombre de tu Empresa / Proyecto</label>
                     <input type="text" id="biz_name" placeholder="Ej: Restaurante El Faro" required>
                     <span class="error-msg"></span>
                 </div>
 
                 <div class="field-group">
-                    <label>Nombre del Contacto (Responsable)</label>
-                    <input type="text" id="contact_name" placeholder="Ej: Juan Pérez" required>
+                    <label for="contact_name">Persona responsable</label>
+                    <input type="text" id="contact_name" placeholder="Tu nombre y apellido" required>
                     <span class="error-msg"></span>
                 </div>
 
                 <div class="field-group">
-                    <label>WhatsApp / Teléfono</label>
-                    <input type="tel" id="whatsapp" placeholder="+52..." required>
+                    <label for="whatsapp">WhatsApp de contacto</label>
+                    <input type="tel" id="whatsapp" placeholder="Ej: +52 55..." required>
                     <span class="error-msg"></span>
-                </div>
-
-                <div class="field-group">
-                    <label>Correo Electrónico</label>
-                    <input type="email" id="email" placeholder="email@ejemplo.com" required>
-                    <span class="error-msg"></span>
-                </div>
-
-                <div class="field-group">
-                    <label>¿Quién te refirió? (Opcional)</label>
-                    <input type="text" id="referral" placeholder="Vendedor o Cliente">
                 </div>
 
                 <div class="field-group">
                     <label>¿Cómo supiste de nosotros?</label>
-                    <div class="cards-grid" id="origin-grid">
-                        </div>
+                    <div class="cards-grid" id="origin-grid"></div>
                     <span class="error-msg" id="origin-error"></span>
                 </div>
 
-                <button type="button" class="neon-button" onclick="validateAndNext(2)">Continuar</button>
+                <button type="button" class="neon-button" onclick="validateStep(1)">Continuar</button>
             </div>
 
-            <div class="form-step" id="step-2" style="display:none;">
-                <h2 class="step-title">2. Tu Rubro</h2>
+            <div id="dynamic-steps"></div>
+
+            <div class="form-step" id="step-5" style="display:none;">
+                <h2 class="step-title">5. Finalizar y Agendar</h2>
                 <div class="field-group">
-                    <label>¿A qué se dedica tu negocio?</label>
-                    <div class="cards-grid" id="rubro-grid"></div>
-                    <span class="error-msg" id="rubro-error"></span>
+                    <label>Volumen de mensajes diarios estimados</label>
+                    <select id="msg_volume" required>
+                        <option value="" disabled selected>Selecciona una opción</option>
+                        <option value="<20">Menos de 20</option>
+                        <option value="20-100">20 a 100</option>
+                        <option value=">100">Más de 100</option>
+                    </select>
+                    <span class="error-msg"></span>
                 </div>
-                <div id="otro-container" class="field-group hidden-field">
-                    <label>Especifica tu rubro</label>
-                    <input type="text" id="rubro_otro" placeholder="Ej: Consultoría de Arte">
-                </div>
-                <button type="button" class="neon-button" onclick="validateAndNext(3)">Siguiente</button>
+                <button type="button" class="neon-button" id="submit-btn" onclick="submitFinalForm()">Enviar Información</button>
             </div>
-
-            <div id="dynamic-step-3"></div>
-
-            <div id="dynamic-step-4"></div>
-
-            <div id="dynamic-step-5"></div>
 
             <div id="success-screen" class="hidden-field">
                 <div class="success-icon">🚀</div>
-                <h2>¡Solicitud Recibida!</h2>
-                <p>Tu estrategia IA está en camino. Agendemos para definir detalles.</p>
+                <h2>¡Datos Enviados!</h2>
+                <p>Tu estrategia IA está lista para ser diseñada. Agenda ahora para definir los detalles técnicos.</p>
                 <a href="https://calendly.com/adolfoarroyoai/30min" target="_blank" class="neon-button">Agendar en Calendly</a>
             </div>
         </form>
     </div>
+
     <script src="config.js"></script>
     <script src="logic.js"></script>
 </body>

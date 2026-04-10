@@ -1,8 +1,7 @@
 let currentStep = 1;
-const formData = { origin: '', rubro_select: '', habilidades: [], channels: [], languages: [] };
+let formData = { origin: '', rubro: '', habilidades: [], channels: [] };
 
-// Datos de las Cards
-const configCards = {
+const items = {
     origin: [
         {id:'Facebook', label:'Facebook', icon:'🌐'}, {id:'Instagram', label:'Instagram', icon:'📸'},
         {id:'LinkedIn', label:'LinkedIn', icon:'💼'}, {id:'Recomendación', label:'Recomendación', icon:'🤝'}
@@ -16,84 +15,86 @@ const configCards = {
 
 window.onload = () => {
     emailjs.init(FORM_CONFIG.integrations.emailjs_public_key);
-    renderCards('origin-grid', configCards.origin, 'origin');
-    renderCards('rubro-grid', configCards.rubros, 'rubro_select');
+    renderCards('origin-grid', items.origin, 'origin');
 };
 
-function renderCards(containerId, items, fieldId, multi = false) {
+function renderCards(containerId, data, field, multi = false) {
     const grid = document.getElementById(containerId);
     if(!grid) return;
-    items.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'card';
-        div.innerHTML = `<span class="card-icon">${item.icon}</span><span class="card-label">${item.label}</span>`;
-        div.onclick = () => selectCard(fieldId, item.id, div, multi);
-        grid.appendChild(div);
+    grid.innerHTML = '';
+    data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<span class="card-icon">${item.icon}</span><span class="card-label">${item.label}</span>`;
+        card.onclick = () => {
+            if(!multi) {
+                grid.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+                formData[field] = item.id;
+            } else {
+                if(formData[field].includes(item.id)) formData[field] = formData[field].filter(i => i !== item.id);
+                else formData[field].push(item.id);
+            }
+            card.classList.toggle('selected');
+        };
+        grid.appendChild(card);
     });
 }
 
-function selectCard(field, value, el, multi) {
-    if(!multi) {
-        el.parentElement.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
-        formData[field] = value;
-        if(field === 'rubro_select') document.getElementById('otro-container').style.display = (value === 'Otro') ? 'block' : 'none';
-    } else {
-        if(formData[field].includes(value)) formData[field] = formData[field].filter(v => v !== value);
-        else formData[field].push(value);
-    }
-    el.classList.toggle('selected', !multi || formData[field].includes(value));
-}
+function validateStep(step) {
+    const stepEl = document.getElementById(`step-${step}`);
+    const inputs = stepEl.querySelectorAll('input[required], select[required]');
+    let valid = true;
 
-function validateAndNext(next) {
-    const stepDiv = document.querySelector(`.form-step:not([style*="display: none"])`);
-    const inputs = stepDiv.querySelectorAll('input[required], textarea[required]');
-    let isValid = true;
-
-    // Validar Inputs de texto
     inputs.forEach(input => {
-        const errorSpan = input.parentElement.querySelector('.error-msg');
+        const error = input.parentElement.querySelector('.error-msg');
         if(!input.value.trim()) {
             input.classList.add('input-error');
-            errorSpan.innerText = `El campo "${input.parentElement.querySelector('label').innerText}" es obligatorio.`;
-            isValid = false;
+            error.innerText = "Este campo es obligatorio.";
+            valid = false;
         } else {
             input.classList.remove('input-error');
-            errorSpan.innerText = "";
+            error.innerText = "";
             formData[input.id] = input.value;
         }
     });
 
-    // Validar Cards (Si hay grid de cards en el paso actual)
-    if(currentStep === 1 && !formData.origin) {
-        document.getElementById('origin-error').innerText = "Selecciona cómo supiste de nosotros.";
-        isValid = false;
+    if(step === 1 && !formData.origin) {
+        document.getElementById('origin-error').innerText = "Selecciona una opción de origen.";
+        valid = false;
     }
 
-    if(isValid) {
-        if(next === 2) {
-            formData.referral = document.getElementById('referral').value;
-            showStep(2);
-        } else if(next === 3) {
-            if(!formData.rubro_select) {
-                document.getElementById('rubro-error').innerText = "Selecciona tu rubro.";
-                return;
-            }
-            renderStep3();
-        } else if(next === 4) {
-            renderStep4();
-        } else if(next === 5) {
-            renderStep5();
-        }
+    if(valid) {
+        if(step === 1) renderStep2();
+        else if(step === 2) renderStep3();
+        // ... continuar con el flujo
     }
 }
 
-function showStep(s) {
-    document.querySelectorAll('.form-step').forEach(d => d.style.display = 'none');
-    const next = document.getElementById(`step-${s}`);
-    if(next) next.style.display = 'block';
-    currentStep = s;
-    updateProgress();
+function renderStep2() {
+    document.getElementById('step-1').style.display = 'none';
+    const container = document.getElementById('dynamic-steps');
+    container.innerHTML = `
+        <div class="form-step" id="step-2">
+            <h2 class="step-title">2. Tu Rubro</h2>
+            <div class="field-group">
+                <label>¿A qué se dedica tu negocio?</label>
+                <div class="cards-grid" id="rubro-grid"></div>
+                <span class="error-msg" id="rubro-error"></span>
+            </div>
+            <button type="button" class="neon-button" onclick="validateStep(2)">Continuar</button>
+        </div>
+    `;
+    renderCards('rubro-grid', items.rubros, 'rubro');
+    updateProgress(2);
 }
 
-// ... Las funciones renderStep3, 4 y 5 siguen la misma lógica inyectando el HTML ...
-// (Para ahorrar espacio aquí, asume que inyectan los campos del Bloque Operativo, Técnico y Expectativas)
+function updateProgress(step) {
+    currentStep = step;
+    document.getElementById('progress-fill').style.width = (step / 5 * 100) + "%";
+    document.getElementById('progress-text').innerText = `Paso ${step} de 5`;
+}
+
+async function submitFinalForm() {
+    // Recoger datos finales y enviar a Google Sheets + EmailJS
+    // (Usa la lógica de fetch y emailjs.send previa)
+}
